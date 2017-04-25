@@ -1,0 +1,54 @@
+#game_map{
+	width: 920px; /* 23 blocks columns 40x40*/
+	height: 600px; /* 15 blocks rows 40x40*/
+	border-style: solid;
+	border-width: 10px;
+	border-color: black;
+	margin-left: auto;
+	margin-right: auto;
+	background-color: white; 
+	position: relative;
+
+}
+
+#gary{
+	width: 40px;/*25 blocks l and r */   
+	height: 60px;/* 15 blocks up and down */
+	background-color: green; 
+/*	margin-left: auto;
+	margin-right: auto;
+	margin-top: 280px;*/
+	position: absolute;
+/*	left: 440px;
+	top: 280px;*/
+	margin: 0;
+	padding: 0;
+	/*right:50%;*/
+	background: url("resources/gary.gif") no-repeat;
+
+}
+
+.woof{
+	width: 40px;/*25 blocks l and r */   
+	height: 60px;/* 15 blocks up and down */
+	background-color: red; 
+
+	position: absolute;
+
+}
+
+#garyLeft{
+	width: 40px;/*25 blocks l and r */   
+	height: 60px;/* 15 blocks up and down */
+	background-color: red; 
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 280px;
+}
+
+body{
+	background-color: black; 
+
+}
+
+/* CENTER: 400PX 300PX;*/
