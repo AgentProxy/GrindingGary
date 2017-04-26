@@ -11,59 +11,72 @@ window.onload = function(){
 	console.log(getX("gary"));
 	console.log(getY("gary"));
 		 gary();
-		 girls();
+		 girlMaker();
 		//positionRandom();
 }
 
-function girls(){
-	var girls = ['girl1','girl2','girl3','girl4','girl5'];
-	girlGenerator();
+function girl(id, min, max){
 
-	function girlGenerator(){
-		var min=0,max=184;
-		for (x=0; x<girls.length; x++){
-// s
-			console.log("max: " + (max-40) + " min: " + min);
-			positionMap(randX(min,(max-40)),randY(),girls[x]);
-			min=min+184;
-			max=max+184;
-// =======
-// 			positionMap(randX(min,max),randY(),girls[x]);
-// >>>>>>> 85a08e97c37c46b31129e6355f902321533bc56b
-		}
+	this.id = id;
+	this.min = min;
+	this.max = max;
+
+}
+
+function girlMaker(){
+	
+	var girlList = ['girl1','girl2','girl3','girl4','girl5'];
+	for(var x = 0; x < girlList.length; x++){
+		var min = 184 * x;
+		var max = 184 * (x+1);
+		console.log(min  + "||" + max);
+		girlList[x] = new girl(girlList[x], min, max);
 	}
+
+	for (var x=0; x<girlList.length; x++){
+		girlGenerator(girlList[x]);
+	}
+
+}
+
+function girlGenerator(girlObject){
+
+	// var mult = girls.split("");
+	// var multiplier = mult[4];
+	// var min = 184 * (multiplier - 1);
+	// var max = 184 * multiplier;
+	console.log("max: " + (girlObject.max - 40) + " min: " + girlObject.min);
+	positionMap(randX(girlObject.min, girlObject.max - 40), randY(), girlObject.id);
+	// console.log(multiplier);
 
 }
 
 function randX(min,max){
+	
 	var randX;
-// <<<<<<< HEAD
  	while(randX==null){
 		randX = (Math.random()*(max-min)) + min; 
-// =======
-	//while(randX==null||randX>880){
-	//	randX = (Math.random()*max) + min;;  
-// >>>>>>> 85a08e97c37c46b31129e6355f902321533bc56b
 		console.log("Random X: " + parseInt(randX));
 	}
 	return parseInt(randX);
+
 }
 
 function randY(){
+
 	var randY;
-// <<<<<<< HEAD
-// 	while(randY==null||randY>540||(randY>getY('gary')-60&&randY<getY('gary')+60)||(randY<getY('gary')-60&&randY>getY('gary')+60)){
-// =======
 	while(randY==null||randY>540){
-// >>>>>>> 85a08e97c37c46b31129e6355f902321533bc56b
 		randY = Math.random()*1000;
 		console.log("Random Y: " + parseInt(randY));
 	}
 	return parseInt(randY);
+
 }
 
 function gary(){
+
 	 window.addEventListener('keydown',moveGary);
+
 }
 
 function moveGary(event){
