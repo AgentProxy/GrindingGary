@@ -1,2 +1,0 @@
-# GrindingGary
-Another One!
