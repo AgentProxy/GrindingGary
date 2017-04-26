@@ -22,10 +22,14 @@ function girls(){
 	function girlGenerator(){
 		var min=0,max=184;
 		for (x=0; x<girls.length; x++){
+// s
 			console.log("max: " + (max-40) + " min: " + min);
 			positionMap(randX(min,(max-40)),randY(),girls[x]);
 			min=min+184;
 			max=max+184;
+// =======
+// 			positionMap(randX(min,max),randY(),girls[x]);
+// >>>>>>> 85a08e97c37c46b31129e6355f902321533bc56b
 		}
 	}
 
@@ -33,8 +37,13 @@ function girls(){
 
 function randX(min,max){
 	var randX;
-	while(randX==null){
+// <<<<<<< HEAD
+ 	while(randX==null){
 		randX = (Math.random()*(max-min)) + min; 
+// =======
+	//while(randX==null||randX>880){
+	//	randX = (Math.random()*max) + min;;  
+// >>>>>>> 85a08e97c37c46b31129e6355f902321533bc56b
 		console.log("Random X: " + parseInt(randX));
 	}
 	return parseInt(randX);
@@ -42,7 +51,11 @@ function randX(min,max){
 
 function randY(){
 	var randY;
-	while(randY==null||randY>540||(randY>getY('gary')-60&&randY<getY('gary')+60)||(randY<getY('gary')-60&&randY>getY('gary')+60)){
+// <<<<<<< HEAD
+// 	while(randY==null||randY>540||(randY>getY('gary')-60&&randY<getY('gary')+60)||(randY<getY('gary')-60&&randY>getY('gary')+60)){
+// =======
+	while(randY==null||randY>540){
+// >>>>>>> 85a08e97c37c46b31129e6355f902321533bc56b
 		randY = Math.random()*1000;
 		console.log("Random Y: " + parseInt(randY));
 	}
