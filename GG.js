@@ -22,8 +22,8 @@ function girl(id, min, max, collide){
 function girlMaker(){
 	var girlList = ['girl1','girl2','girl3','girl4','girl5'];
 	for(var x = 0; x < girlList.length; x++){
-		var min = 184 * x;
-		var max = 184 * (x+1);
+		var min = 190 * x;
+		var max = 190 * (x+1);
 		//console.log(min  + "||" + max);
 		girlList[x] = new girl(girlList[x], min, max, false);
 	}
@@ -60,11 +60,12 @@ function overlapGary(x,y){
 }
 
 function randX(min,max){	
+
 	var randX;
- 	while(randX==null){
-		randX = (Math.random()*(max-min)) + min; 
-		console.log("Random X: " + parseInt(randX));
-	}
+	var randGen = Math.random();
+	randX = Math.floor(((randGen*(max-min)) + min)/10);
+	randX *= 10;
+	console.log("Random X: " + parseInt(randX));
 	return parseInt(randX);
 
 }
@@ -85,13 +86,10 @@ function garyCollision(objects){
 	objectX=getX(objects.id);
 	objectY=getY(objects.id);
 	console.log("current girl: " + objects.id);
-	// if((objectX+40<=garyX)&&(((objectY+60>garyY)&&(objectY<garyY))||(objectY<garyY+60)&&(objectY+60>garyY+60))){
 	if((garyX==objectX+40)){
 		return true
 	}
 	else{
-		//console.log('hey: ' + objects.id + "Object Position: " + objectX + " " + objectY + " Gary X = " + garyX + " Gary Y = " + garyY);
-		
 		return false;
 	}
 }
@@ -103,38 +101,40 @@ function gary(){
 function moveGary(event){
 
 	window.removeEventListener('keydown', moveGary);
+	var collide = false;
 	for(var x; x < 5; x++){
 		girlListGlobal[x].collide = garyCollision(girlListGlobal[x]);
-		var collide = girlListGlobal[x].collide;
-		//UP ARROW PRESSED
-		if(event.keyCode=="38"){
-			faceGary("GaryRunLeft.png", "gary");
-			if(!collide){
-				positionMap(0,-20,'gary');
-			}
+		collide = girlListGlobal[x].collide;
+		console.log("collide with: " + girlListGlobal[x].id);
+	}
+	//UP ARROW PRESSED
+	if(event.keyCode=="38"){
+		faceGary("GaryRunLeft.png", "gary");
+		if(!collide){
+			positionMap(0,-10,'gary');
 		}
+	}
 
-		//DOWN ARROW PRESSED
-		else if(event.keyCode=="40"){
-			faceGary("GaryRunRight.png", "gary");
-			if(!collide){
-				positionMap(0, 20,'gary');
-			}
+	//DOWN ARROW PRESSED
+	else if(event.keyCode=="40"){
+		faceGary("GaryRunRight.png", "gary");
+		if(!collide){
+			positionMap(0, 10,'gary');
 		}
+	}
 
-		//LEFT ARROW PRESSED
-		else if(event.keyCode=="37"){
-			faceGary("GaryRunLeft.png", "gary");
-			if(!collide){
-				positionMap(-20,0,'gary');
-			}
+	//LEFT ARROW PRESSED
+	else if(event.keyCode=="37"){
+		faceGary("GaryRunLeft.png", "gary");
+		if(!collide){
+			positionMap(-10,0,'gary');
 		}
-		//RIGHT ARROW PRESSED
-		else if(event.keyCode=="39"){
-			faceGary("GaryRunRight.png", "gary");
-			if(!collide){
-				positionMap(20,0,'gary');
-			}
+	}
+	//RIGHT ARROW PRESSED
+	else if(event.keyCode=="39"){
+		faceGary("GaryRunRight.png", "gary");
+		if(!collide){
+			positionMap(10,0,'gary');
 		}
 	}
 	window.addEventListener("keyup", stopGary);
@@ -145,27 +145,21 @@ function stopGary(event){
 	//UP ARROW PRESSED
 	if(event.keyCode=="38"){
 		faceGary("GaryStandLeft.png", "gary");
-		// positionMap(0,-20,'gary');
 	}
 
 	//DOWN ARROW PRESSED
 	else if(event.keyCode=="40"){
 		faceGary("GaryStandRight.png", "gary");
-		// positionMap(0, 20,'gary');
+
 	}
 
 	//LEFT ARROW PRESSED
 	else if(event.keyCode=="37"){
 		faceGary("GaryStandLeft.png", "gary");
-		// positionMap(-20,0,'gary');
 	}
 	//RIGHT ARROW PRESSED
 	else if(event.keyCode=="39"){
-		// positionMap(20,0,'gary');
-		// faceGary("GaryMovesRight.gif", "gary");
-		// window.setTimeout(function(){
 		faceGary("GaryStandRight.png", "gary");
-		// }, 100);
 	}
 	gary();
 
