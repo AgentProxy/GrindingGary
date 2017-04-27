@@ -1,18 +1,9 @@
-
-// var garyX=440;
-// var garyY=280;
-
-
 window.onload = function(){
-	//gary = document.getElementById('gary');
-	//console.log(gary.style.left);
+
+	gary();
+	girlMaker();
 	positionMap(440, 280, "gary");
 
-	console.log(getX("gary"));
-	console.log(getY("gary"));
-		 gary();
-		 girlMaker();
-		//positionRandom();
 }
 
 function girl(id, min, max){
@@ -39,15 +30,11 @@ function girlMaker(){
 
 }
 
+
 function girlGenerator(girlObject){
 
-	// var mult = girls.split("");
-	// var multiplier = mult[4];
-	// var min = 184 * (multiplier - 1);
-	// var max = 184 * multiplier;
 	console.log("max: " + (girlObject.max - 40) + " min: " + girlObject.min);
 	positionMap(randX(girlObject.min, girlObject.max - 40), randY(), girlObject.id);
-	// console.log(multiplier);
 
 }
 
@@ -75,35 +62,74 @@ function randY(){
 
 function gary(){
 
-	 window.addEventListener('keydown',moveGary);
+	// var something;
+	window.addEventListener('keydown', moveGary);
+	// var character = document.getElementById("gary");
+	 // window.addEventListener('keyup', stopGary);
 
 }
 
 function moveGary(event){
-		console.log("hey");
-		gary = document.getElementById('gary');
-		//UP ARROW PRESSED
-		if(event.keyCode=="38"){
-			positionMap(0,-5,'gary');
-		}
-
-		//DOWN ARROW PRESSED
-		if(event.keyCode=="40"){
-			positionMap(0,5,'gary');
-		}
-
-		//LEFT ARROW PRESSED
-		if(event.keyCode=="37"){
-			positionMap(-5,0,'gary');
-			//garyX=garyX-40;
-			//gary.style.left=garyX+"px";
-		}
-		//RIGHT ARROW PRESSED
-		if(event.keyCode=="39"){
-			positionMap(5,0,'gary');
-		}
-		console.log("gary.style.left");
+	//UP ARROW PRESSED
+	window.removeEventListener('keydown', moveGary);
+	if(event.keyCode=="38"){
+		faceGary("GaryRunLeft.png", "gary");
+		positionMap(0,-20,'gary');
 	}
+
+	//DOWN ARROW PRESSED
+	else if(event.keyCode=="40"){
+		faceGary("GaryRunRight.png", "gary");
+		positionMap(0, 20,'gary');
+	}
+
+	//LEFT ARROW PRESSED
+	else if(event.keyCode=="37"){
+		faceGary("GaryRunLeft.png", "gary");
+		positionMap(-20,0,'gary');
+	}
+	//RIGHT ARROW PRESSED
+	else if(event.keyCode=="39"){
+		faceGary("GaryRunRight.png", "gary");
+		positionMap(20,0,'gary');
+	}
+	window.addEventListener("keyup", stopGary);
+
+}
+
+function stopGary(event){
+	//UP ARROW PRESSED
+	if(event.keyCode=="38"){
+		faceGary("GaryStandLeft.png", "gary");
+		// positionMap(0,-20,'gary');
+	}
+
+	//DOWN ARROW PRESSED
+	else if(event.keyCode=="40"){
+		faceGary("GaryStandRight.png", "gary");
+		// positionMap(0, 20,'gary');
+	}
+
+	//LEFT ARROW PRESSED
+	else if(event.keyCode=="37"){
+		faceGary("GaryStandLeft.png", "gary");
+		// positionMap(-20,0,'gary');
+	}
+	//RIGHT ARROW PRESSED
+	else if(event.keyCode=="39"){
+		// positionMap(20,0,'gary');
+		// faceGary("GaryMovesRight.gif", "gary");
+		// window.setTimeout(function(){
+		faceGary("GaryStandRight.png", "gary");
+		// }, 100);
+	}
+	gary();
+
+}
+
+function faceGary(direction, id){
+	document.getElementById(id).firstChild.src = "resources/" + direction;
+}
 
 function positionMap(X, Y, id){
 
@@ -141,8 +167,7 @@ function positionMap(X, Y, id){
 	else{
 		position.style.top = sumY + "px";
 	}
-
-	console.log(id + " is at X = " + position.style.left + " Y = " + position.style.top);
+	// console.log(id + " is at X = " + position.style.left + " Y = " + position.style.top);
 }
 
 function getX(id){
