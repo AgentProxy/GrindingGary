@@ -101,18 +101,24 @@ function garyCollision(objects){
 		console.log("current girl: " + objects.id);
 		// if((objectX+40<=garyX)&&(((objectY+60>garyY)&&(objectY<garyY))||(objectY<garyY+60)&&(objectY+60>garyY+60))){
 		//if((garyX<=objectX+40)&&(garyX+40<objectX+80)&&(garyX>objectX-40)) -- Range v1
-		if(objectleft<garyLeft&&objectRight>garyLeft){ 
+		if((objectLeft<garyLeft&&objectRight>garyLeft)&&((garyBottom>objectTop&&garyBottom<objectBottom)||(garyTop<objectBottom&&garyTop>objectTop))){ 
 			//Left
+			console.log("Gary hits right of object");
 			return true;
 		}
-		else if(objectRight<garyRight&&objectLeft<garyRight){
-
+		if((objectLeft<=garyRight&&garyRight<objectRight)&&((garyBottom>objectTop&&garyBottom<objectBottom)||(garyTop<objectBottom&&garyTop>objectTop))){ 
+			//Right
+			console.log('Gary hits left of object');
+			return true;
 		}
-		else if(){
-
+		    
+		if((garyBottom>=objectTop&&garyBottom<objectBottom)&&((garyRight>objectLeft&&garyRight<objectRight)||(garyLeft<objectRight&&garyLeft>objectLeft))){
+			console.log('Gary hits top of object');
+			return true;
 		}
-		else if(){
-
+		if((garyTop<=objectBottom&&garyTop>objectTop)&&((garyRight>objectLeft&&garyRight<objectRight)||(garyLeft<objectRight&&garyLeft>objectLeft))){
+			console.log('Gary hits bottom of object');
+			return true;
 		}
 		else{
 			//console.log('hey: ' + objects.id + "Object Position: " + objectX + " " + objectY + " Gary X = " + garyX + " Gary Y = " + garyY);
