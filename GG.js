@@ -1,45 +1,65 @@
 window.onload = function(){
 
-	gary();
-	girlMaker();
 	positionMap(440, 280, "gary");
+	console.log(getX("gary"));
+	console.log(getY("gary"));
+	gary();
+	window.girlListGlobal = girlMaker();
 
+	for(x=0;x<girlListGlobal.length;x++){
+		console.log("Girl: " + girlListGlobal[x].id + " at X: " + getX(girlListGlobal[x].id) + " at Y: " + getY(girlListGlobal[x].id));
+	}
 }
 
-function girl(id, min, max){
-
+// Object Constructor for creating girls
+function girl(id, min, max, collide){
 	this.id = id;
 	this.min = min;
 	this.max = max;
-
+	this.collide = collide;
 }
 
 function girlMaker(){
-	
 	var girlList = ['girl1','girl2','girl3','girl4','girl5'];
 	for(var x = 0; x < girlList.length; x++){
 		var min = 184 * x;
 		var max = 184 * (x+1);
-		console.log(min  + "||" + max);
-		girlList[x] = new girl(girlList[x], min, max);
+		//console.log(min  + "||" + max);
+		girlList[x] = new girl(girlList[x], min, max, false);
 	}
 
 	for (var x=0; x<girlList.length; x++){
 		girlGenerator(girlList[x]);
 	}
 
+	return girlList;
 }
 
 
 function girlGenerator(girlObject){
-
-	console.log("max: " + (girlObject.max - 40) + " min: " + girlObject.min);
-	positionMap(randX(girlObject.min, girlObject.max - 40), randY(), girlObject.id);
-
+	var x,y;
+	while(x==null||y==null||overlapGary(x,y)==true){
+		x=randX(girlObject.min, girlObject.max - 40)
+		y=randY();
+		console.log("overlapGary: "+overlapGary(x,y));
+	}
+	positionMap(x, y, girlObject.id);
+	//positionMap(randX(girlObject.min, girlObject.max - 40), randY(), girlObject.id);
 }
 
-function randX(min,max){
-	
+
+function overlapGary(x,y){
+	garyX=getX('gary');
+	garyY=getY('gary');
+	if(((x<garyX-40)||(x>garyY+80)) && ((y<garyY-60)||(y>garyY+120))){
+		return false;
+	}
+	else{
+		return true;
+	}
+}
+
+function randX(min,max){	
 	var randX;
  	while(randX==null){
 		randX = (Math.random()*(max-min)) + min; 
@@ -50,48 +70,72 @@ function randX(min,max){
 }
 
 function randY(){
-
 	var randY;
 	while(randY==null||randY>540){
 		randY = Math.random()*1000;
 		console.log("Random Y: " + parseInt(randY));
 	}
 	return parseInt(randY);
+}
 
+function garyCollision(objects){
+
+	garyX = getX('gary');
+	garyY = getY('gary');
+	objectX=getX(objects.id);
+	objectY=getY(objects.id);
+	console.log("current girl: " + objects.id);
+	// if((objectX+40<=garyX)&&(((objectY+60>garyY)&&(objectY<garyY))||(objectY<garyY+60)&&(objectY+60>garyY+60))){
+	if((garyX==objectX+40)){
+		return true
+	}
+	else{
+		//console.log('hey: ' + objects.id + "Object Position: " + objectX + " " + objectY + " Gary X = " + garyX + " Gary Y = " + garyY);
+		
+		return false;
+	}
 }
 
 function gary(){
-
-	// var something;
-	window.addEventListener('keydown', moveGary);
-	// var character = document.getElementById("gary");
-	 // window.addEventListener('keyup', stopGary);
-
+	window.addEventListener('keydown',moveGary);
 }
 
 function moveGary(event){
-	//UP ARROW PRESSED
+
 	window.removeEventListener('keydown', moveGary);
-	if(event.keyCode=="38"){
-		faceGary("GaryRunLeft.png", "gary");
-		positionMap(0,-20,'gary');
-	}
+	for(var x; x < 5; x++){
+		girlListGlobal[x].collide = garyCollision(girlListGlobal[x]);
+		var collide = girlListGlobal[x].collide;
+		//UP ARROW PRESSED
+		if(event.keyCode=="38"){
+			faceGary("GaryRunLeft.png", "gary");
+			if(!collide){
+				positionMap(0,-20,'gary');
+			}
+		}
 
-	//DOWN ARROW PRESSED
-	else if(event.keyCode=="40"){
-		faceGary("GaryRunRight.png", "gary");
-		positionMap(0, 20,'gary');
-	}
+		//DOWN ARROW PRESSED
+		else if(event.keyCode=="40"){
+			faceGary("GaryRunRight.png", "gary");
+			if(!collide){
+				positionMap(0, 20,'gary');
+			}
+		}
 
-	//LEFT ARROW PRESSED
-	else if(event.keyCode=="37"){
-		faceGary("GaryRunLeft.png", "gary");
-		positionMap(-20,0,'gary');
-	}
-	//RIGHT ARROW PRESSED
-	else if(event.keyCode=="39"){
-		faceGary("GaryRunRight.png", "gary");
-		positionMap(20,0,'gary');
+		//LEFT ARROW PRESSED
+		else if(event.keyCode=="37"){
+			faceGary("GaryRunLeft.png", "gary");
+			if(!collide){
+				positionMap(-20,0,'gary');
+			}
+		}
+		//RIGHT ARROW PRESSED
+		else if(event.keyCode=="39"){
+			faceGary("GaryRunRight.png", "gary");
+			if(!collide){
+				positionMap(20,0,'gary');
+			}
+		}
 	}
 	window.addEventListener("keyup", stopGary);
 
@@ -129,6 +173,7 @@ function stopGary(event){
 
 function faceGary(direction, id){
 	document.getElementById(id).firstChild.src = "resources/" + direction;
+
 }
 
 function positionMap(X, Y, id){
