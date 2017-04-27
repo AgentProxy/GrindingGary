@@ -22,8 +22,8 @@ function girl(id, min, max, collide){
 function girlMaker(){
 	var girlList = ['girl1','girl2','girl3','girl4','girl5'];
 	for(var x = 0; x < girlList.length; x++){
-		var min = 184 * x;
-		var max = 184 * (x+1);
+		var min = 190 * x;
+		var max = 190 * (x+1);
 		//console.log(min  + "||" + max);
 		girlList[x] = new girl(girlList[x], min, max, false);
 	}
@@ -44,7 +44,6 @@ function girlGenerator(girlObject){
 		console.log("overlapGary: "+overlapGary(x,y));
 	}
 	positionMap(x, y, girlObject.id);
-	//positionMap(randX(girlObject.min, girlObject.max - 40), randY(), girlObject.id);
 }
 
 
@@ -60,11 +59,12 @@ function overlapGary(x,y){
 }
 
 function randX(min,max){	
+
 	var randX;
- 	while(randX==null){
-		randX = (Math.random()*(max-min)) + min; 
-		console.log("Random X: " + parseInt(randX));
-	}
+	var randGen = Math.random();
+	randX = Math.floor(((randGen*(max-min)) + min)/10);
+	randX *= 10;
+	console.log("Random X: " + parseInt(randX));
 	return parseInt(randX);
 
 }
@@ -72,13 +72,18 @@ function randX(min,max){
 function randY(){
 	var randY;
 	while(randY==null||randY>540){
-		randY = Math.random()*1000;
+		//randY = (Math.random()*1000)/10;
+		randY = 0; 
 		console.log("Random Y: " + parseInt(randY));
 	}
 	return parseInt(randY);
 }
 
 function garyCollision(objects){
+// <<<<<<< HEAD
+// =======
+
+// >>>>>>> 597f5db1da45c6822ceebdc49a0b79813a8168ce
 	garyLeft = getX('gary');
 	garyRight = getX('gary')+40;
 	garyTop = getY('gary');
@@ -117,6 +122,7 @@ function gary(){
 }
 
 function moveGary(event){
+// <<<<<<< HEAD
 	for(var x=0; x < 5; x++){
 		girlListGlobal[x].collide = garyCollision(girlListGlobal[x]);
 		var collide = girlListGlobal[x].collide;
@@ -147,7 +153,44 @@ function moveGary(event){
 		else if(event.keyCode=="39"){
 			faceGary("GaryRunRight.png", "gary");
 			positionMap(20,0,'gary');
-		}
+// =======
+
+// 	window.removeEventListener('keydown', moveGary);
+// 	var collide = false;
+// 	for(var x; x < 5; x++){
+// 		girlListGlobal[x].collide = garyCollision(girlListGlobal[x]);
+// 		collide = girlListGlobal[x].collide;
+// 		console.log("collide with: " + girlListGlobal[x].id);
+// 	}
+// 	//UP ARROW PRESSED
+// 	if(event.keyCode=="38"){
+// 		faceGary("GaryRunLeft.png", "gary");
+// 		if(!collide){
+// 			positionMap(0,-10,'gary');
+// 		}
+// 	}
+// 	//DOWN ARROW PRESSED
+// 	else if(event.keyCode=="40"){
+// 		faceGary("GaryRunRight.png", "gary");
+// 		if(!collide){
+// 			positionMap(0, 10,'gary');
+// 		}
+// 	}
+// 	//LEFT ARROW PRESSED
+// 	else if(event.keyCode=="37"){
+// 		faceGary("GaryRunLeft.png", "gary");
+// 		if(!collide){
+// 			positionMap(-10,0,'gary');
+// >>>>>>> 597f5db1da45c6822ceebdc49a0b79813a8168ce
+// 		}
+// 	}
+// 	//RIGHT ARROW PRESSED
+// 	else if(event.keyCode=="39"){
+// 		faceGary("GaryRunRight.png", "gary");
+// 		if(!collide){
+// 			positionMap(10,0,'gary');
+
+	}
 	window.addEventListener("keyup", stopGary);
 }
 
@@ -155,27 +198,21 @@ function stopGary(event){
 	//UP ARROW PRESSED
 	if(event.keyCode=="38"){
 		faceGary("GaryStandLeft.png", "gary");
-		// positionMap(0,-20,'gary');
 	}
 
 	//DOWN ARROW PRESSED
 	else if(event.keyCode=="40"){
 		faceGary("GaryStandRight.png", "gary");
-		// positionMap(0, 20,'gary');
+
 	}
 
 	//LEFT ARROW PRESSED
 	else if(event.keyCode=="37"){
 		faceGary("GaryStandLeft.png", "gary");
-		// positionMap(-20,0,'gary');
 	}
 	//RIGHT ARROW PRESSED
 	else if(event.keyCode=="39"){
-		// positionMap(20,0,'gary');
-		// faceGary("GaryMovesRight.gif", "gary");
-		// window.setTimeout(function(){
 		faceGary("GaryStandRight.png", "gary");
-		// }, 100);
 	}
 	gary();
 
@@ -222,7 +259,7 @@ function positionMap(X, Y, id){
 	else{
 		position.style.top = sumY + "px";
 	}
-	// console.log(id + " is at X = " + position.style.left + " Y = " + position.style.top);
+	 console.log(id + " is at X = " + position.style.left + " Y = " + position.style.top);
 }
 
 function getX(id){
