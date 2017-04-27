@@ -79,7 +79,7 @@ function randY(){
 }
 
 function garyCollision(objects){
-<<<<<<< HEAD
+// <<<<<<< HEAD
 	//gary = document.getElementById('gary');
 
 	// for(var x=0; x<5; x++){
@@ -118,25 +118,7 @@ function garyCollision(objects){
 			return false;
 		}
 	// }
-}//(objectY<garyY+60)&&(objectY+60>garyY+60))||(
-=======
-
-	garyX = getX('gary');
-	garyY = getY('gary');
-	objectX=getX(objects.id);
-	objectY=getY(objects.id);
-	console.log("current girl: " + objects.id);
-	// if((objectX+40<=garyX)&&(((objectY+60>garyY)&&(objectY<garyY))||(objectY<garyY+60)&&(objectY+60>garyY+60))){
-	if((garyX==objectX+40)){
-		return true
-	}
-	else{
-		//console.log('hey: ' + objects.id + "Object Position: " + objectX + " " + objectY + " Gary X = " + garyX + " Gary Y = " + garyY);
-		
-		return false;
-	}
 }
->>>>>>> 4ecd56fd12bd1d0f37249662cb4beae211bdbe9e
 
 function gary(){
 	window.addEventListener('keydown',moveGary);
@@ -147,43 +129,44 @@ function moveGary(event){
 	window.removeEventListener('keydown', moveGary);
 	for(var x; x < 5; x++){
 		girlListGlobal[x].collide = garyCollision(girlListGlobal[x]);
-<<<<<<< HEAD
-		collide = girlListGlobal[x].collide;
-		console.log("Collide: " + collide);
-=======
-		var collide = girlListGlobal[x].collide;
+// <<<<<<< HEAD
+// 		collide = girlListGlobal[x].collide;
+ 		console.log("Collide: " + collide);
+// =======
+		var collide = false;
+		//var collide = girlListGlobal[x].collide;
 		//UP ARROW PRESSED
->>>>>>> 4ecd56fd12bd1d0f37249662cb4beae211bdbe9e
+	}
+// >>>>>>> 4ecd56fd12bd1d0f37249662cb4beae211bdbe9e
 		if(event.keyCode=="38"){
 			faceGary("GaryRunLeft.png", "gary");
-			if(!collide){
+			// if(!collide){
 				positionMap(0,-20,'gary');
-			}
+			// }
 		}
 
 		//DOWN ARROW PRESSED
 		else if(event.keyCode=="40"){
 			faceGary("GaryRunRight.png", "gary");
-			if(!collide){
+			// if(!collide){
 				positionMap(0, 20,'gary');
-			}
+			// }
 		}
 
 		//LEFT ARROW PRESSED
 		else if(event.keyCode=="37"){
 			faceGary("GaryRunLeft.png", "gary");
-			if(!collide){
+			// if(!collide){
 				positionMap(-20,0,'gary');
-			}
+			// }
 		}
 		//RIGHT ARROW PRESSED
 		else if(event.keyCode=="39"){
 			faceGary("GaryRunRight.png", "gary");
-			if(!collide){
+			// if(!collide){
 				positionMap(20,0,'gary');
-			}
+			// }
 		}
-	}
 	window.addEventListener("keyup", stopGary);
 
 }
