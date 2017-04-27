@@ -5,10 +5,15 @@ window.onload = function(){
 	gary();
 	window.girlListGlobal = girlMaker();
 	/*EJFLOW*/
-	window.collisionChecker = setInterval(function(){
-		window.collide=garyCollision(girlListGlobal);
-		console.log("Collide: " + collide);
-	},500);
+	// window.collisionChecker = setInterval(function(){
+	// 	window.collide=garyCollision(girlListGlobal);
+	// 	console.log("Collide: " + collide);
+	// },1000);
+	// window.collide = false;
+	// for(var x = 0; x < girlListGlobal; x++){
+	// 	collide = garyCollision(girlListGlobal[x]);
+	// }
+	// garyCollision(girlListGlobal);
 
 	for(x=0;x<girlListGlobal.length;x++){
 		console.log("Girl: " + girlListGlobal[x].id + " at X: " + getX(girlListGlobal[x].id) + " at Y: " + getY(girlListGlobal[x].id));
@@ -17,10 +22,11 @@ window.onload = function(){
 }
 
 // Object Constructor for creating girls
-function girl(id, min, max){
+function girl(id, min, max, collide){
 	this.id = id;
 	this.min = min;
 	this.max = max;
+	this.collide = collide;
 }
 
 function girlMaker(){
@@ -29,7 +35,7 @@ function girlMaker(){
 		var min = 184 * x;
 		var max = 184 * (x+1);
 		//console.log(min  + "||" + max);
-		girlList[x] = new girl(girlList[x], min, max);
+		girlList[x] = new girl(girlList[x], min, max, false);
 	}
 
 	for (var x=0; x<girlList.length; x++){
@@ -83,23 +89,24 @@ function randY(){
 function garyCollision(objects){
 	//gary = document.getElementById('gary');
 
-	//for(var x=0; x<objects.length; x++){
+	// for(var x=0; x<5; x++){
 		garyX = getX('gary');
 		garyY = getY('gary');
-		objectX=getX(objects[0].id);
-		objectY=getY(objects[0].id);
-		console.log("current girl: " + x);
-		if((objectX<=garyX) && ((objectY+60)<=garyY)&&(objectY-60)>=garyY){
-			console.log('hoy');
-			return false;
+		objectX=getX(objects.id);
+		objectY=getY(objects.id);
+		console.log("current girl: " + objects.id);
+		// if((objectX+40<=garyX)&&(((objectY+60>garyY)&&(objectY<garyY))||(objectY<garyY+60)&&(objectY+60>garyY+60))){
+		if((garyX==objectX+40)){
+			return true
 		}
 		else{
-			console.log('hey: ' + objects[0].id + "Object Position: " + objectX + " " + objectY + " Gary X = " + garyX + " Gary Y = " + garyY);
-			return true;
+			//console.log('hey: ' + objects.id + "Object Position: " + objectX + " " + objectY + " Gary X = " + garyX + " Gary Y = " + garyY);
+			
+			return false;
 		}
 
-	//}
-}
+	// }
+}//(objectY<garyY+60)&&(objectY+60>garyY+60))||(
 
 function gary(){
 	window.addEventListener('keydown',moveGary);
@@ -108,33 +115,42 @@ function gary(){
 function moveGary(event){
 	console.log("hey");
 	gary = document.getElementById('gary');
+
+	var collide;
+	for(var x = 0; x < 5; x++){
+		girlListGlobal[x].collide = garyCollision(girlListGlobal[x]);
+		collide = girlListGlobal[x].collide;
+		if(event.keyCode=="38"){
+			if(collide==false){
+				positionMap(0,-5,'gary');
+			}
+			
+		}
+
+		//DOWN ARROW PRESSED
+		if(event.keyCode=="40"){
+			if(collide==false){
+				positionMap(0,5,'gary');
+			}
+		}
+
+		//LEFT ARROW PRESSED
+		if(event.keyCode=="37"){
+			if(collide==false){
+				positionMap(-5,0,'gary');
+			}
+			// else{
+			// 	console.log("collide with " + girlListGlobal[x].id);
+			// }
+		}
+		//RIGHT ARROW PRESSED
+		if(event.keyCode=="39"){
+			if(collide==false){
+				positionMap(5,0,'gary');
+			}
+		}
+	}
 	//UP ARROW PRESSED
-	if(event.keyCode=="38"){
-		if(collide==false){
-			positionMap(0,-5,'gary');
-		}
-		
-	}
-
-	//DOWN ARROW PRESSED
-	if(event.keyCode=="40"){
-		if(collide==false){
-			positionMap(0,5,'gary');
-		}
-	}
-
-	//LEFT ARROW PRESSED
-	if(event.keyCode=="37"){
-		if(collide==false){
-			positionMap(-5,0,'gary');
-		}
-	}
-	//RIGHT ARROW PRESSED
-	if(event.keyCode=="39"){
-		if(collide==false){
-			positionMap(5,0,'gary');
-		}
-	}
 	console.log("gary.style.left");
 }
 
