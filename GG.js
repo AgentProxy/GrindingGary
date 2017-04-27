@@ -44,7 +44,6 @@ function girlGenerator(girlObject){
 		console.log("overlapGary: "+overlapGary(x,y));
 	}
 	positionMap(x, y, girlObject.id);
-	//positionMap(randX(girlObject.min, girlObject.max - 40), randY(), girlObject.id);
 }
 
 
@@ -81,13 +80,33 @@ function randY(){
 
 function garyCollision(objects){
 
-	garyX = getX('gary');
-	garyY = getY('gary');
-	objectX=getX(objects.id);
-	objectY=getY(objects.id);
+	garyLeft = getX('gary');
+	garyRight = getX('gary')+40;
+	garyTop = getY('gary');
+	garyBottom = getY('gary')+60;
+	objectLeft=getX(objects.id);
+	objectRight=getX(objects.id)+40 ;
+	objectTop=getY(objects.id );
+	objectBottom=getY(objects.id)+60;
 	console.log("current girl: " + objects.id);
-	if((garyX==objectX+40)){
-		return true
+	if((objectLeft<garyLeft&&objectRight>garyLeft)&&((garyBottom>objectTop&&garyBottom<objectBottom)||(garyTop<objectBottom&&garyTop>objectTop))){ 
+		//Left
+		console.log("Gary hits right of object");
+		return true;
+	}
+	if((objectLeft<=garyRight&&garyRight<objectRight)&&((garyBottom>objectTop&&garyBottom<objectBottom)||(garyTop<objectBottom&&garyTop>objectTop))){ 
+		//Right
+		console.log('Gary hits left of object');
+		return true;
+	}
+	    
+	if((garyBottom>=objectTop&&garyBottom<objectBottom)&&((garyRight>objectLeft&&garyRight<objectRight)||(garyLeft<objectRight&&garyLeft>objectLeft))){
+		console.log('Gary hits top of object');
+		return true;
+	}
+	if((garyTop<=objectBottom&&garyTop>objectTop)&&((garyRight>objectLeft&&garyRight<objectRight)||(garyLeft<objectRight&&garyLeft>objectLeft))){
+		console.log('Gary hits bottom of object');
+		return true;
 	}
 	else{
 		return false;
@@ -114,7 +133,6 @@ function moveGary(event){
 			positionMap(0,-10,'gary');
 		}
 	}
-
 	//DOWN ARROW PRESSED
 	else if(event.keyCode=="40"){
 		faceGary("GaryRunRight.png", "gary");
@@ -122,7 +140,6 @@ function moveGary(event){
 			positionMap(0, 10,'gary');
 		}
 	}
-
 	//LEFT ARROW PRESSED
 	else if(event.keyCode=="37"){
 		faceGary("GaryRunLeft.png", "gary");
@@ -135,7 +152,7 @@ function moveGary(event){
 		faceGary("GaryRunRight.png", "gary");
 		if(!collide){
 			positionMap(10,0,'gary');
-		}
+
 	}
 	window.addEventListener("keyup", stopGary);
 
