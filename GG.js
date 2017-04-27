@@ -44,6 +44,7 @@ function girlGenerator(girlObject){
 		console.log("overlapGary: "+overlapGary(x,y));
 	}
 	positionMap(x, y, girlObject.id);
+	//positionMap(randX(girlObject.min, girlObject.max - 40), randY(), girlObject.id);
 }
 
 
@@ -64,57 +65,72 @@ function randX(min,max){
 	var randGen = Math.random();
 	randX = Math.floor(((randGen*(max-min)) + min)/10);
 	randX *= 10;
-	console.log("Random X: " + parseInt(randX));
+	console.log("Random X: " + randX);
 	return parseInt(randX);
 
 }
 
 function randY(){
 	var randY;
+	// randX = Math.floor(((randGen*(max-min)) + min)/10);
 	while(randY==null||randY>540){
-		//randY = (Math.random()*1000)/10;
-		randY = 0; 
-		console.log("Random Y: " + parseInt(randY));
+// <<<<<<< HEAD
+// 		//randY = (Math.random()*1000)/10;
+// 		randY = 0; 
+// 		console.log("Random Y: " + parseInt(randY));
+// =======
+		randY = Math.floor((Math.random()*1000)/10);
+		randY *= 10;
+		console.log("Random Y: " + randY);
+//>>>>>>> 661e1f88520dfac3b3b0d8a778066038388fe99e
 	}
 	return parseInt(randY);
 }
 
-function garyCollision(objects){
 // <<<<<<< HEAD
-// =======
+// function garyCollision(objects){
+// // <<<<<<< HEAD
+// // =======
 
-// >>>>>>> 597f5db1da45c6822ceebdc49a0b79813a8168ce
-	garyLeft = getX('gary');
-	garyRight = getX('gary')+40;
-	garyTop = getY('gary');
-	garyBottom = getY('gary')+60;
+// // >>>>>>> 597f5db1da45c6822ceebdc49a0b79813a8168ce
+// 	garyLeft = getX('gary');
+// 	garyRight = getX('gary')+40;
+// 	garyTop = getY('gary');
+// 	garyBottom = getY('gary')+60;
+// =======
+function garyCollision(objects, left, top){
+
+	garyLeft = left;
+	garyRight = left + 40;
+	garyTop = top;
+	garyBottom = top + 60;
+// >>>>>>> 661e1f88520dfac3b3b0d8a778066038388fe99e
 	objectLeft=getX(objects.id);
 	objectRight=getX(objects.id)+40 ;
 	objectTop=getY(objects.id );
 	objectBottom=getY(objects.id)+60;
 	console.log("current girl: " + objects.id);
-	if((objectLeft<garyLeft&&objectRight>garyLeft)&&((garyBottom>objectTop&&garyBottom<objectBottom)||(garyTop<objectBottom&&garyTop>objectTop))){ 
+	if((garyTop==objectBottom&&garyTop>objectTop)&&((garyRight>=objectLeft&&garyRight<=objectRight)||(garyLeft<=objectRight&&garyLeft>=objectLeft))){
+		console.log('Gary hits bottom of object');
+		return 1;
+	}
+	if((garyBottom==objectTop&&garyBottom<=objectBottom)&&((garyRight>objectLeft&&garyRight<=objectRight)||(garyLeft<objectRight&&garyLeft>=objectLeft))){
+		console.log('Gary hits top of object');
+		return 2;
+	}
+	if((objectLeft<garyLeft && objectRight>=garyLeft)&&((garyBottom>=objectTop&&garyBottom<=objectBottom)||(garyTop<=objectBottom&&garyTop>=objectTop))){ 
 		//Left
 		console.log("Gary hits right of object");
-		return true;
-	}
-	if((objectLeft<=garyRight&&garyRight<objectRight)&&((garyBottom>objectTop&&garyBottom<objectBottom)||(garyTop<objectBottom&&garyTop>objectTop))){ 
+		return 3;
+	}   
+	if((objectLeft<=garyRight&&garyRight<=objectRight)&&((garyBottom>=objectTop&&garyBottom<=objectBottom)||(garyTop<=objectBottom&&garyTop>=objectTop))){ 
 		//Right
 		console.log('Gary hits left of object');
-		return true;
+		return 4;
 	}
-	    
-	if((garyBottom>=objectTop&&garyBottom<objectBottom)&&((garyRight>objectLeft&&garyRight<objectRight)||(garyLeft<objectRight&&garyLeft>objectLeft))){
-		console.log('Gary hits top of object');
-		return true;
-	}
-	if((garyTop<=objectBottom&&garyTop>objectTop)&&((garyRight>objectLeft&&garyRight<objectRight)||(garyLeft<objectRight&&garyLeft>objectLeft))){
-		console.log('Gary hits bottom of object');
-		return true;
-	}
-	else{
-		return false;
-	}
+		//console.log('hey: ' + objects.id + "Object Position: " + objectX + " " + objectY + " Gary X = " + garyX + " Gary Y = " + garyY);
+	return 0
+
 }
 
 function gary(){
@@ -123,75 +139,120 @@ function gary(){
 
 function moveGary(event){
 // <<<<<<< HEAD
-	for(var x=0; x < 5; x++){
-		girlListGlobal[x].collide = garyCollision(girlListGlobal[x]);
-		var collide = girlListGlobal[x].collide;
-		console.log("Collide: " + collide);
+// // <<<<<<< HEAD
+// 	for(var x=0; x < 5; x++){
+// 		girlListGlobal[x].collide = garyCollision(girlListGlobal[x]);
+// 		var collide = girlListGlobal[x].collide;
+// 		console.log("Collide: " + collide);
 		
-	}
-	window.removeEventListener('keydown', moveGary);
+// 	}
+// 	window.removeEventListener('keydown', moveGary);
 
-		//UP ARROW PRESSED
-		if(event.keyCode=="38"){
-			faceGary("GaryRunLeft.png", "gary");
-			positionMap(0,-20,'gary');
-		}
+// 		//UP ARROW PRESSED
+// 		if(event.keyCode=="38"){
+// 			faceGary("GaryRunLeft.png", "gary");
+// 			positionMap(0,-20,'gary');
+// 		}
 
-		//DOWN ARROW PRESSED
-		else if(event.keyCode=="40"){
-			faceGary("GaryRunRight.png", "gary");
-			positionMap(0, 20,'gary');
-		}
+// 		//DOWN ARROW PRESSED
+// 		else if(event.keyCode=="40"){
+// 			faceGary("GaryRunRight.png", "gary");
+// 			positionMap(0, 20,'gary');
+// 		}
 
-		//LEFT ARROW PRESSED
-		else if(event.keyCode=="37"){
-			faceGary("GaryRunLeft.png", "gary");
-			positionMap(-20,0,'gary');
+// 		//LEFT ARROW PRESSED
+// 		else if(event.keyCode=="37"){
+// 			faceGary("GaryRunLeft.png", "gary");
+// 			positionMap(-20,0,'gary');
 			
-		}
-		//RIGHT ARROW PRESSED
-		else if(event.keyCode=="39"){
-			faceGary("GaryRunRight.png", "gary");
-			positionMap(20,0,'gary');
+// 		}
+// 		//RIGHT ARROW PRESSED
+// 		else if(event.keyCode=="39"){
+// 			faceGary("GaryRunRight.png", "gary");
+// 			positionMap(20,0,'gary');
+// // =======
+
+// // 	window.removeEventListener('keydown', moveGary);
+// // 	var collide = false;
+// // 	for(var x; x < 5; x++){
+// // 		girlListGlobal[x].collide = garyCollision(girlListGlobal[x]);
+// // 		collide = girlListGlobal[x].collide;
+// // 		console.log("collide with: " + girlListGlobal[x].id);
+// // 	}
+// // 	//UP ARROW PRESSED
+// // 	if(event.keyCode=="38"){
+// // 		faceGary("GaryRunLeft.png", "gary");
+// // 		if(!collide){
+// // 			positionMap(0,-10,'gary');
+// // 		}
+// // 	}
+// // 	//DOWN ARROW PRESSED
+// // 	else if(event.keyCode=="40"){
+// // 		faceGary("GaryRunRight.png", "gary");
+// // 		if(!collide){
+// // 			positionMap(0, 10,'gary');
+// // 		}
+// // 	}
+// // 	//LEFT ARROW PRESSED
+// // 	else if(event.keyCode=="37"){
+// // 		faceGary("GaryRunLeft.png", "gary");
+// // 		if(!collide){
+// // 			positionMap(-10,0,'gary');
+// // >>>>>>> 597f5db1da45c6822ceebdc49a0b79813a8168ce
+// // 		}
+// // 	}
+// // 	//RIGHT ARROW PRESSED
+// // 	else if(event.keyCode=="39"){
+// // 		faceGary("GaryRunRight.png", "gary");
+// // 		if(!collide){
+// // 			positionMap(10,0,'gary');
+
+// 	}
+// 	window.addEventListener("keyup", stopGary);
 // =======
 
-// 	window.removeEventListener('keydown', moveGary);
-// 	var collide = false;
-// 	for(var x; x < 5; x++){
-// 		girlListGlobal[x].collide = garyCollision(girlListGlobal[x]);
-// 		collide = girlListGlobal[x].collide;
-// 		console.log("collide with: " + girlListGlobal[x].id);
-// 	}
-// 	//UP ARROW PRESSED
-// 	if(event.keyCode=="38"){
-// 		faceGary("GaryRunLeft.png", "gary");
-// 		if(!collide){
-// 			positionMap(0,-10,'gary');
-// 		}
-// 	}
-// 	//DOWN ARROW PRESSED
-// 	else if(event.keyCode=="40"){
-// 		faceGary("GaryRunRight.png", "gary");
-// 		if(!collide){
-// 			positionMap(0, 10,'gary');
-// 		}
-// 	}
-// 	//LEFT ARROW PRESSED
-// 	else if(event.keyCode=="37"){
-// 		faceGary("GaryRunLeft.png", "gary");
-// 		if(!collide){
-// 			positionMap(-10,0,'gary');
-// >>>>>>> 597f5db1da45c6822ceebdc49a0b79813a8168ce
-// 		}
-// 	}
-// 	//RIGHT ARROW PRESSED
-// 	else if(event.keyCode=="39"){
-// 		faceGary("GaryRunRight.png", "gary");
-// 		if(!collide){
-// 			positionMap(10,0,'gary');
+	window.removeEventListener('keydown', moveGary);
+	var collide = false;
+	var column;
+	for(var x = 0; x <= 920; x+=184){
+		if(x <= getX('gary')){
+			column = x/184;
+		}
+	}
+	console.log(column);
+	collide = garyCollision(girlListGlobal[column], getX('gary'), getY('gary'));
+	//UP ARROW PRESSED
+	if(event.keyCode=="38"){
+		faceGary("GaryRunLeft.png", "gary");
+		if(collide != 1){
+			positionMap(0,-10,'gary');
+		}
+	}
+	//DOWN ARROW PRESSED
+	else if(event.keyCode=="40"){
+		faceGary("GaryRunRight.png", "gary");
+		if(collide != 2){
+			positionMap(0, 10,'gary');
+		}
+	}
+	//LEFT ARROW PRESSED
+	else if(event.keyCode=="37"){
+		faceGary("GaryRunLeft.png", "gary");
+		if(collide != 3){
+			positionMap(-10,0,'gary');
+		}
+	}
+	//RIGHT ARROW PRESSED
+	else if(event.keyCode=="39"){
+		faceGary("GaryRunRight.png", "gary");
+		if(collide != 4){
+			positionMap(10,0,'gary');
+		}
 
 	}
 	window.addEventListener("keyup", stopGary);
+	//190, 380, 570, 760, 950
+// >>>>>>> 661e1f88520dfac3b3b0d8a778066038388fe99e
 }
 
 function stopGary(event){
