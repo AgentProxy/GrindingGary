@@ -79,45 +79,37 @@ function randY(){
 }
 
 function garyCollision(objects){
-// <<<<<<< HEAD
-	//gary = document.getElementById('gary');
-
-	// for(var x=0; x<5; x++){
-		garyLeft = getX('gary');
-		garyRight = getX('gary')+40;
-		garyTop = getY('gary');
-		garyBottom = getY('gary')+60;
-		objectLeft=getX(objects.id);
-		objectRight=getX(objects.id)+40 ;
-		objectTop=getY(objects.id );
-		objectBottom=getY(objects.id)+60;
-		console.log("current girl: " + objects.id);
-		// if((objectX+40<=garyX)&&(((objectY+60>garyY)&&(objectY<garyY))||(objectY<garyY+60)&&(objectY+60>garyY+60))){
-		//if((garyX<=objectX+40)&&(garyX+40<objectX+80)&&(garyX>objectX-40)) -- Range v1
-		if((objectLeft<garyLeft&&objectRight>garyLeft)&&((garyBottom>objectTop&&garyBottom<objectBottom)||(garyTop<objectBottom&&garyTop>objectTop))){ 
-			//Left
-			console.log("Gary hits right of object");
-			return true;
-		}
-		if((objectLeft<=garyRight&&garyRight<objectRight)&&((garyBottom>objectTop&&garyBottom<objectBottom)||(garyTop<objectBottom&&garyTop>objectTop))){ 
-			//Right
-			console.log('Gary hits left of object');
-			return true;
-		}
-		    
-		if((garyBottom>=objectTop&&garyBottom<objectBottom)&&((garyRight>objectLeft&&garyRight<objectRight)||(garyLeft<objectRight&&garyLeft>objectLeft))){
-			console.log('Gary hits top of object');
-			return true;
-		}
-		if((garyTop<=objectBottom&&garyTop>objectTop)&&((garyRight>objectLeft&&garyRight<objectRight)||(garyLeft<objectRight&&garyLeft>objectLeft))){
-			console.log('Gary hits bottom of object');
-			return true;
-		}
-		else{
-			//console.log('hey: ' + objects.id + "Object Position: " + objectX + " " + objectY + " Gary X = " + garyX + " Gary Y = " + garyY);
-			return false;
-		}
-	// }
+	garyLeft = getX('gary');
+	garyRight = getX('gary')+40;
+	garyTop = getY('gary');
+	garyBottom = getY('gary')+60;
+	objectLeft=getX(objects.id);
+	objectRight=getX(objects.id)+40 ;
+	objectTop=getY(objects.id );
+	objectBottom=getY(objects.id)+60;
+	console.log("current girl: " + objects.id);
+	if((objectLeft<garyLeft&&objectRight>garyLeft)&&((garyBottom>objectTop&&garyBottom<objectBottom)||(garyTop<objectBottom&&garyTop>objectTop))){ 
+		//Left
+		console.log("Gary hits right of object");
+		return true;
+	}
+	if((objectLeft<=garyRight&&garyRight<objectRight)&&((garyBottom>objectTop&&garyBottom<objectBottom)||(garyTop<objectBottom&&garyTop>objectTop))){ 
+		//Right
+		console.log('Gary hits left of object');
+		return true;
+	}
+	    
+	if((garyBottom>=objectTop&&garyBottom<objectBottom)&&((garyRight>objectLeft&&garyRight<objectRight)||(garyLeft<objectRight&&garyLeft>objectLeft))){
+		console.log('Gary hits top of object');
+		return true;
+	}
+	if((garyTop<=objectBottom&&garyTop>objectTop)&&((garyRight>objectLeft&&garyRight<objectRight)||(garyLeft<objectRight&&garyLeft>objectLeft))){
+		console.log('Gary hits bottom of object');
+		return true;
+	}
+	else{
+		return false;
+	}
 }
 
 function gary(){
@@ -125,50 +117,38 @@ function gary(){
 }
 
 function moveGary(event){
-
-	window.removeEventListener('keydown', moveGary);
-	for(var x; x < 5; x++){
+	for(var x=0; x < 5; x++){
 		girlListGlobal[x].collide = garyCollision(girlListGlobal[x]);
-// <<<<<<< HEAD
-// 		collide = girlListGlobal[x].collide;
- 		console.log("Collide: " + collide);
-// =======
-		var collide = false;
-		//var collide = girlListGlobal[x].collide;
-		//UP ARROW PRESSED
+		var collide = girlListGlobal[x].collide;
+		console.log("Collide: " + collide);
+		
 	}
-// >>>>>>> 4ecd56fd12bd1d0f37249662cb4beae211bdbe9e
+	window.removeEventListener('keydown', moveGary);
+
+		//UP ARROW PRESSED
 		if(event.keyCode=="38"){
 			faceGary("GaryRunLeft.png", "gary");
-			// if(!collide){
-				positionMap(0,-20,'gary');
-			// }
+			positionMap(0,-20,'gary');
 		}
 
 		//DOWN ARROW PRESSED
 		else if(event.keyCode=="40"){
 			faceGary("GaryRunRight.png", "gary");
-			// if(!collide){
-				positionMap(0, 20,'gary');
-			// }
+			positionMap(0, 20,'gary');
 		}
 
 		//LEFT ARROW PRESSED
 		else if(event.keyCode=="37"){
 			faceGary("GaryRunLeft.png", "gary");
-			// if(!collide){
-				positionMap(-20,0,'gary');
-			// }
+			positionMap(-20,0,'gary');
+			
 		}
 		//RIGHT ARROW PRESSED
 		else if(event.keyCode=="39"){
 			faceGary("GaryRunRight.png", "gary");
-			// if(!collide){
-				positionMap(20,0,'gary');
-			// }
+			positionMap(20,0,'gary');
 		}
 	window.addEventListener("keyup", stopGary);
-
 }
 
 function stopGary(event){
