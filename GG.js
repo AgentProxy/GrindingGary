@@ -90,22 +90,34 @@ function garyCollision(objects){
 	//gary = document.getElementById('gary');
 
 	// for(var x=0; x<5; x++){
-		garyX = getX('gary');
-		garyY = getY('gary');
-		objectX=getX(objects.id);
-		objectY=getY(objects.id);
+		garyLeft = getX('gary');
+		garyRight = getX('gary')+40;
+		garyTop = getY('gary');
+		garyBottom = getY('gary')+60;
+		objectLeft=getX(objects.id);
+		objectRight=getX(objects.id)+40 ;
+		objectTop=getY(objects.id );
+		objectBottom=getY(objects.id)+60;
 		console.log("current girl: " + objects.id);
 		// if((objectX+40<=garyX)&&(((objectY+60>garyY)&&(objectY<garyY))||(objectY<garyY+60)&&(objectY+60>garyY+60))){
 		//if((garyX<=objectX+40)&&(garyX+40<objectX+80)&&(garyX>objectX-40)) -- Range v1
-		if(objectX<garyX&&objectX+40>garyX){
+		if(objectleft<garyLeft&&objectRight>garyLeft){ 
+			//Left
 			return true;
+		}
+		else if(objectRight<garyRight&&objectLeft<garyRight){
+
+		}
+		else if(){
+
+		}
+		else if(){
+
 		}
 		else{
 			//console.log('hey: ' + objects.id + "Object Position: " + objectX + " " + objectY + " Gary X = " + garyX + " Gary Y = " + garyY);
-			
 			return false;
 		}
-
 	// }
 }//(objectY<garyY+60)&&(objectY+60>garyY+60))||(
 
