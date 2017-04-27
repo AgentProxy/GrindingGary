@@ -96,8 +96,9 @@ function garyCollision(objects){
 		objectY=getY(objects.id);
 		console.log("current girl: " + objects.id);
 		// if((objectX+40<=garyX)&&(((objectY+60>garyY)&&(objectY<garyY))||(objectY<garyY+60)&&(objectY+60>garyY+60))){
-		if((garyX==objectX+40)){
-			return true
+		//if((garyX<=objectX+40)&&(garyX+40<objectX+80)&&(garyX>objectX-40)) -- Range v1
+		if(objectX<garyX&&objectX+40>garyX){
+			return true;
 		}
 		else{
 			//console.log('hey: ' + objects.id + "Object Position: " + objectX + " " + objectY + " Gary X = " + garyX + " Gary Y = " + garyY);
@@ -120,6 +121,7 @@ function moveGary(event){
 	for(var x = 0; x < 5; x++){
 		girlListGlobal[x].collide = garyCollision(girlListGlobal[x]);
 		collide = girlListGlobal[x].collide;
+		console.log("Collide: " + collide);
 		if(event.keyCode=="38"){
 			if(collide==false){
 				positionMap(0,-5,'gary');
