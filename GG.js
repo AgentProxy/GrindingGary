@@ -1,24 +1,14 @@
 window.onload = function(){
+
 	positionMap(440, 280, "gary");
 	console.log(getX("gary"));
 	console.log(getY("gary"));
 	gary();
 	window.girlListGlobal = girlMaker();
-	/*EJFLOW*/
-	// window.collisionChecker = setInterval(function(){
-	// 	window.collide=garyCollision(girlListGlobal);
-	// 	console.log("Collide: " + collide);
-	// },1000);
-	// window.collide = false;
-	// for(var x = 0; x < girlListGlobal; x++){
-	// 	collide = garyCollision(girlListGlobal[x]);
-	// }
-	// garyCollision(girlListGlobal);
 
 	for(x=0;x<girlListGlobal.length;x++){
 		console.log("Girl: " + girlListGlobal[x].id + " at X: " + getX(girlListGlobal[x].id) + " at Y: " + getY(girlListGlobal[x].id));
 	}
-	//EJFLOW 
 }
 
 // Object Constructor for creating girls
@@ -45,6 +35,7 @@ function girlMaker(){
 	return girlList;
 }
 
+
 function girlGenerator(girlObject){
 	var x,y;
 	while(x==null||y==null||overlapGary(x,y)==true){
@@ -55,6 +46,7 @@ function girlGenerator(girlObject){
 	positionMap(x, y, girlObject.id);
 	//positionMap(randX(girlObject.min, girlObject.max - 40), randY(), girlObject.id);
 }
+
 
 function overlapGary(x,y){
 	garyX=getX('gary');
@@ -87,6 +79,7 @@ function randY(){
 }
 
 function garyCollision(objects){
+<<<<<<< HEAD
 	//gary = document.getElementById('gary');
 
 	// for(var x=0; x<5; x++){
@@ -126,52 +119,108 @@ function garyCollision(objects){
 		}
 	// }
 }//(objectY<garyY+60)&&(objectY+60>garyY+60))||(
+=======
+
+	garyX = getX('gary');
+	garyY = getY('gary');
+	objectX=getX(objects.id);
+	objectY=getY(objects.id);
+	console.log("current girl: " + objects.id);
+	// if((objectX+40<=garyX)&&(((objectY+60>garyY)&&(objectY<garyY))||(objectY<garyY+60)&&(objectY+60>garyY+60))){
+	if((garyX==objectX+40)){
+		return true
+	}
+	else{
+		//console.log('hey: ' + objects.id + "Object Position: " + objectX + " " + objectY + " Gary X = " + garyX + " Gary Y = " + garyY);
+		
+		return false;
+	}
+}
+>>>>>>> 4ecd56fd12bd1d0f37249662cb4beae211bdbe9e
 
 function gary(){
 	window.addEventListener('keydown',moveGary);
 }
 
 function moveGary(event){
-	console.log("hey");
-	gary = document.getElementById('gary');
 
-	var collide;
-	for(var x = 0; x < 5; x++){
+	window.removeEventListener('keydown', moveGary);
+	for(var x; x < 5; x++){
 		girlListGlobal[x].collide = garyCollision(girlListGlobal[x]);
+<<<<<<< HEAD
 		collide = girlListGlobal[x].collide;
 		console.log("Collide: " + collide);
+=======
+		var collide = girlListGlobal[x].collide;
+		//UP ARROW PRESSED
+>>>>>>> 4ecd56fd12bd1d0f37249662cb4beae211bdbe9e
 		if(event.keyCode=="38"){
-			if(collide==false){
-				positionMap(0,-5,'gary');
+			faceGary("GaryRunLeft.png", "gary");
+			if(!collide){
+				positionMap(0,-20,'gary');
 			}
-			
 		}
 
 		//DOWN ARROW PRESSED
-		if(event.keyCode=="40"){
-			if(collide==false){
-				positionMap(0,5,'gary');
+		else if(event.keyCode=="40"){
+			faceGary("GaryRunRight.png", "gary");
+			if(!collide){
+				positionMap(0, 20,'gary');
 			}
 		}
 
 		//LEFT ARROW PRESSED
-		if(event.keyCode=="37"){
-			if(collide==false){
-				positionMap(-5,0,'gary');
+		else if(event.keyCode=="37"){
+			faceGary("GaryRunLeft.png", "gary");
+			if(!collide){
+				positionMap(-20,0,'gary');
 			}
-			// else{
-			// 	console.log("collide with " + girlListGlobal[x].id);
-			// }
 		}
 		//RIGHT ARROW PRESSED
-		if(event.keyCode=="39"){
-			if(collide==false){
-				positionMap(5,0,'gary');
+		else if(event.keyCode=="39"){
+			faceGary("GaryRunRight.png", "gary");
+			if(!collide){
+				positionMap(20,0,'gary');
 			}
 		}
 	}
+	window.addEventListener("keyup", stopGary);
+
+}
+
+function stopGary(event){
 	//UP ARROW PRESSED
-	console.log("gary.style.left");
+	if(event.keyCode=="38"){
+		faceGary("GaryStandLeft.png", "gary");
+		// positionMap(0,-20,'gary');
+	}
+
+	//DOWN ARROW PRESSED
+	else if(event.keyCode=="40"){
+		faceGary("GaryStandRight.png", "gary");
+		// positionMap(0, 20,'gary');
+	}
+
+	//LEFT ARROW PRESSED
+	else if(event.keyCode=="37"){
+		faceGary("GaryStandLeft.png", "gary");
+		// positionMap(-20,0,'gary');
+	}
+	//RIGHT ARROW PRESSED
+	else if(event.keyCode=="39"){
+		// positionMap(20,0,'gary');
+		// faceGary("GaryMovesRight.gif", "gary");
+		// window.setTimeout(function(){
+		faceGary("GaryStandRight.png", "gary");
+		// }, 100);
+	}
+	gary();
+
+}
+
+function faceGary(direction, id){
+	document.getElementById(id).firstChild.src = "resources/" + direction;
+
 }
 
 function positionMap(X, Y, id){
@@ -210,8 +259,7 @@ function positionMap(X, Y, id){
 	else{
 		position.style.top = sumY + "px";
 	}
-
-	console.log(id + " is at X = " + position.style.left + " Y = " + position.style.top);
+	// console.log(id + " is at X = " + position.style.left + " Y = " + position.style.top);
 }
 
 function getX(id){
