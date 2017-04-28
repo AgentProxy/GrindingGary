@@ -107,12 +107,12 @@ function garyCollision(objects, left, top){
 		console.log('Gary hits top of object');
 		return 2;
 	}
-	if((objectLeft<garyLeft && objectRight<=garyLeft)&&((garyBottom>objectTop&&garyBottom<=objectBottom)||(garyTop<objectBottom&&garyTop>=objectTop))){ 
+	if((objectLeft<garyLeft && objectRight==garyLeft)&&((garyBottom>objectTop&&garyBottom<=objectBottom)||(garyTop<objectBottom&&garyTop>=objectTop))){ 
 		//Left
 		console.log("Gary hits right of object");
 		return 3;
 	}   
-	if((objectLeft>=garyRight && objectRight>garyRight)&&((garyBottom>objectTop&&garyBottom<=objectBottom)||(garyTop<objectBottom&&garyTop>=objectTop))){ 
+	if((objectLeft==garyRight && objectRight>garyRight)&&((garyBottom>objectTop&&garyBottom<=objectBottom)||(garyTop<objectBottom&&garyTop>=objectTop))){ 
 		//Right
 		console.log('Gary hits left of object');
 		return 4;
