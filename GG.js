@@ -92,20 +92,20 @@ function garyCollision(objects, left, top){
 	objectTop=getY(objects.id );
 	objectBottom=getY(objects.id)+60;
 	console.log("current girl: " + objects.id);
-	if((garyTop<=objectBottom&&garyTop>=objectTop)&&((garyRight>=objectLeft&&garyRight<=objectRight)||(garyLeft<=objectRight&&garyLeft>=objectLeft))){
+	if((garyTop<=objectBottom&&garyTop>objectTop)&&((garyRight>objectLeft&&garyRight<=objectRight)||(garyLeft<objectRight&&garyLeft>=objectLeft))){
 		console.log('Gary hits bottom of object');
 		return 1;
 	}
-	if((garyBottom>=objectTop&&garyBottom<=objectBottom)&&((garyRight>objectLeft&&garyRight<=objectRight)||(garyLeft<objectRight&&garyLeft>=objectLeft))){
+	if((garyBottom>=objectTop&&garyBottom<objectBottom)&&((garyRight>objectLeft&&garyRight<=objectRight)||(garyLeft<objectRight&&garyLeft>=objectLeft))){
 		console.log('Gary hits top of object');
 		return 2;
 	}
-	if((objectLeft<garyLeft && objectRight>=garyLeft)&&((garyBottom>=objectTop&&garyBottom<=objectBottom)||(garyTop<=objectBottom&&garyTop>=objectTop))){ 
+	if((objectLeft<garyLeft && objectRight<=garyLeft)&&((garyBottom>objectTop&&garyBottom<=objectBottom)||(garyTop<objectBottom&&garyTop>=objectTop))){ 
 		//Left
 		console.log("Gary hits right of object");
 		return 3;
 	}   
-	if((objectLeft<=garyRight&&garyRight<=objectRight)&&((garyBottom>=objectTop&&garyBottom<=objectBottom)||(garyTop<=objectBottom&&garyTop>=objectTop))){ 
+	if((objectLeft>=garyRight && objectRight>garyRight)&&((garyBottom>objectTop&&garyBottom<=objectBottom)||(garyTop<objectBottom&&garyTop>=objectTop))){ 
 		//Right
 		console.log('Gary hits left of object');
 		return 4;
@@ -148,14 +148,14 @@ function moveGary(event){
 	//LEFT ARROW PRESSED
 	else if(event.keyCode=="37"){
 		faceGary("GaryRunLeft.png", "gary");
-		if(collide != 4){
+		if(collide != 3){
 			positionMap(-10,0,'gary');
 		}
 	}
 	//RIGHT ARROW PRESSED
 	else if(event.keyCode=="39"){
 		faceGary("GaryRunRight.png", "gary");
-		if(collide != 3){
+		if(collide != 4){
 			positionMap(10,0,'gary');
 		}
 
