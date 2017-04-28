@@ -74,9 +74,15 @@ function randY(){
 	var randY;
 	// randX = Math.floor(((randGen*(max-min)) + min)/10);
 	while(randY==null||randY>540){
+// <<<<<<< HEAD
+// 		//randY = (Math.random()*1000)/10;
+// 		randY = 0; 
+// 		console.log("Random Y: " + parseInt(randY));
+// =======
 		randY = Math.floor((Math.random()*1000)/10);
 		randY *= 10;
 		console.log("Random Y: " + randY);
+//>>>>>>> 661e1f88520dfac3b3b0d8a778066038388fe99e
 	}
 	return parseInt(randY);
 }
@@ -92,11 +98,12 @@ function garyCollision(objects, left, top){
 	objectTop=getY(objects.id );
 	objectBottom=getY(objects.id)+60;
 	console.log("current girl: " + objects.id);
-	if((garyTop<=objectBottom&&garyTop>objectTop)&&((garyRight>objectLeft&&garyRight<=objectRight)||(garyLeft<objectRight&&garyLeft>=objectLeft))){
+
+	if((garyTop==objectBottom&&garyTop>objectTop)&&((garyRight>=objectLeft&&garyRight<=objectRight)||(garyLeft<=objectRight&&garyLeft>=objectLeft))){
 		console.log('Gary hits bottom of object');
 		return 1;
 	}
-	if((garyBottom>=objectTop&&garyBottom<objectBottom)&&((garyRight>objectLeft&&garyRight<=objectRight)||(garyLeft<objectRight&&garyLeft>=objectLeft))){
+	if((garyBottom==objectTop&&garyBottom<=objectBottom)&&((garyRight>objectLeft&&garyRight<=objectRight)||(garyLeft<objectRight&&garyLeft>=objectLeft))){
 		console.log('Gary hits top of object');
 		return 2;
 	}
@@ -120,6 +127,78 @@ function gary(){
 }
 
 function moveGary(event){
+// <<<<<<< HEAD
+// // <<<<<<< HEAD
+// 	for(var x=0; x < 5; x++){
+// 		girlListGlobal[x].collide = garyCollision(girlListGlobal[x]);
+// 		var collide = girlListGlobal[x].collide;
+// 		console.log("Collide: " + collide);
+		
+// 	}
+// 	window.removeEventListener('keydown', moveGary);
+
+// 		//UP ARROW PRESSED
+// 		if(event.keyCode=="38"){
+// 			faceGary("GaryRunLeft.png", "gary");
+// 			positionMap(0,-20,'gary');
+// 		}
+
+// 		//DOWN ARROW PRESSED
+// 		else if(event.keyCode=="40"){
+// 			faceGary("GaryRunRight.png", "gary");
+// 			positionMap(0, 20,'gary');
+// 		}
+
+// 		//LEFT ARROW PRESSED
+// 		else if(event.keyCode=="37"){
+// 			faceGary("GaryRunLeft.png", "gary");
+// 			positionMap(-20,0,'gary');
+			
+// 		}
+// 		//RIGHT ARROW PRESSED
+// 		else if(event.keyCode=="39"){
+// 			faceGary("GaryRunRight.png", "gary");
+// 			positionMap(20,0,'gary');
+// // =======
+
+// // 	window.removeEventListener('keydown', moveGary);
+// // 	var collide = false;
+// // 	for(var x; x < 5; x++){
+// // 		girlListGlobal[x].collide = garyCollision(girlListGlobal[x]);
+// // 		collide = girlListGlobal[x].collide;
+// // 		console.log("collide with: " + girlListGlobal[x].id);
+// // 	}
+// // 	//UP ARROW PRESSED
+// // 	if(event.keyCode=="38"){
+// // 		faceGary("GaryRunLeft.png", "gary");
+// // 		if(!collide){
+// // 			positionMap(0,-10,'gary');
+// // 		}
+// // 	}
+// // 	//DOWN ARROW PRESSED
+// // 	else if(event.keyCode=="40"){
+// // 		faceGary("GaryRunRight.png", "gary");
+// // 		if(!collide){
+// // 			positionMap(0, 10,'gary');
+// // 		}
+// // 	}
+// // 	//LEFT ARROW PRESSED
+// // 	else if(event.keyCode=="37"){
+// // 		faceGary("GaryRunLeft.png", "gary");
+// // 		if(!collide){
+// // 			positionMap(-10,0,'gary');
+// // >>>>>>> 597f5db1da45c6822ceebdc49a0b79813a8168ce
+// // 		}
+// // 	}
+// // 	//RIGHT ARROW PRESSED
+// // 	else if(event.keyCode=="39"){
+// // 		faceGary("GaryRunRight.png", "gary");
+// // 		if(!collide){
+// // 			positionMap(10,0,'gary');
+
+// 	}
+// 	window.addEventListener("keyup", stopGary);
+// =======
 
 	window.removeEventListener('keydown', moveGary);
 	var collide = false;
@@ -162,6 +241,7 @@ function moveGary(event){
 	}
 	window.addEventListener("keyup", stopGary);
 	//190, 380, 570, 760, 950
+// >>>>>>> 661e1f88520dfac3b3b0d8a778066038388fe99e
 }
 
 function stopGary(event){
@@ -229,7 +309,7 @@ function positionMap(X, Y, id){
 	else{
 		position.style.top = sumY + "px";
 	}
-	// console.log(id + " is at X = " + position.style.left + " Y = " + position.style.top);
+	 console.log(id + " is at X = " + position.style.left + " Y = " + position.style.top);
 }
 
 function getX(id){
