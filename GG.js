@@ -1,174 +1,296 @@
 window.onload = function(){
-
-	positionMap(440, 280, "gary");
-	console.log(getX("gary"));
-	console.log(getY("gary"));
-	gary();
+	window.gary = garyMaker();
+	garyStart();
 	window.girlListGlobal = girlMaker();
+	//window.guardList = guardMaker();
+	//guardStart();
+	window.score = 0;
+	window.life = 3;
+	window.time = 60;
+	window.grindedArray=[];
+	document.getElementById("life").innerHTML=life;
+	setInterval(gameStart,1000);
+}
 
-	for(x=0;x<girlListGlobal.length;x++){
-		console.log("Girl: " + girlListGlobal[x].id + " at X: " + getX(girlListGlobal[x].id) + " at Y: " + getY(girlListGlobal[x].id));
+function gameStart(){
+	document.getElementById("time").innerHTML = time;
+		time--;
+	document.getElementById("life").innerHTML=life;
+	if(time==0){
+		gameLose();
 	}
+
+}
+
+//Object constructor for Gary
+function Gary(id, x, y, grinding){
+	this.x =x;
+	this.y =y;
+	this.id = id;
 }
 
 // Object Constructor for creating girls
-function girl(id, min, max, collide){
+function Girl(id, x, y, collide, type){
+	this.x = x;
+	this.y = y;
 	this.id = id;
-	this.min = min;
-	this.max = max;
+	this.collide = collide;
+	this.type =type;
+	if(type==1){
+		document.getElementById(id).firstChild.src="resources/KokakDance.gif";
+		this.scoreEarn = 100;
+		this.stamina = 10;
+		this.pressure = 3;
+		this.timeAdd=10;
+	}
+	else if(type==2){
+		document.getElementById(id).firstChild.src="resources/MeowDance.gif";
+		this.scoreEarn = 200;
+		this.stamina = 7;
+		this.pressure = 2;
+		this.timeAdd=10;
+	}
+	else{
+		document.getElementById(id).firstChild.src="resources/Dave.gif";
+		this.scoreEarn = 300;
+		this.stamina = 5;
+		this.pressure = 2;
+		this.timeAdd=10;
+	}
+}
+//Object Constructor for Guard
+function Guard(id, x, y){
+	this.x =x;
+	this.y =y;
+	this.id = id;
+}
+
+function barrier(id, min, max, collide){
+	this.id = id;
 	this.collide = collide;
 }
 
+//Sets the position of Gary and initialize/reinitialize gary's controller
+function garyStart(){
+	console.log("Gary x: " + gary.x);
+	console.log("Gary y: " + gary.y);
+	positionMap(0,0,gary);
+	window.addEventListener('keydown',moveGary);
+}
+
+// function guardStart(){
+// 	setInterval(function(){
+// 		guardMove(guardList[0]);
+// 	}, 500);
+// }
+
+// function guardMove(guardObject){
+// 	//while(guardList[guardIndex].y!=360){
+// 	if(guardObject.x<900){
+// 		positionMap(10,0,guardObject);
+// 	}
+// 	if(guardObject.x>=90&&guardObject.y==0){
+// 		positionMap(0,10,guardObject);
+// 	}
+// 	if(guardObject.y>=240){
+// 		positionMap(0,-10,guardObject);
+// 	}
+// 	//}
+// }
+
+function garyMaker(){
+	var gary = new Gary('gary',440,280,false)	
+	return gary;
+}
+
+//creates array of girls and generates position
 function girlMaker(){
 	var girlList = ['girl1','girl2','girl3','girl4','girl5'];
 	for(var x = 0; x < girlList.length; x++){
-		var min = 190 * x;
-		var max = 190 * (x+1);
-		//console.log(min  + "||" + max);
-		girlList[x] = new girl(girlList[x], min, max, false);
+		var randomizeType = Math.random();
+		var type = Math.floor(((randomizeType*(4-1)) + 1));
+		girlList[x] = new Girl(girlList[x], 0, 0, false, type);
 	}
 
 	for (var x=0; x<girlList.length; x++){
-		girlGenerator(girlList[x]);
+		girlPositionGenerator(girlList[x]);
 	}
-
 	return girlList;
 }
 
+// function guardMaker(){
+// 	console.log("sulod");
+// 	var guardList = ['guard1','guard2','guard3','guard4'];
+// 	guardTopX=0;
+// 	guardTopY=0;
+// 	guardBottomX=0;
+// 	guardBottomY=300;
+// 	for(var x = 0; x < guardList.length; x++){
+// 		if(x%2==0){
+// 			guardList[x] = new Guard(guardList[x], guardTopX, guardTopY);
+// 		}
+// 		else if(x%2!=0){
+// 			guardList[x] = new Guard(guardList[x], guardBottomX, guardBottomY);
+// 		}
+// 	}
 
-function girlGenerator(girlObject){
+// 	for (var x=0; x<guardList.length; x++){
+// 		positionMap(guardList[x].x, guardList[x].y, guardList[x]);
+// 	}
+// 	return guardList;
+// }
+
+function girlPositionGenerator(girlObject){
 	var x,y;
-	while(x==null||y==null||overlapGary(x,y)==true){
-		x=randX(girlObject.min, girlObject.max - 40)
+	while(x==null||y==null||avoidOverlap(x,y)==true){
+		x=randX(0, 140)
 		y=randY();
-		console.log("overlapGary: "+overlapGary(x,y));
 	}
-	positionMap(x, y, girlObject.id);
-	//positionMap(randX(girlObject.min, girlObject.max - 40), randY(), girlObject.id);
+	
+	positionMap(x, y, girlObject);
+	console.log("Girl Object: " + girlObject.id + "at x " + girlObject.x + " y: " + girlObject.y);
+	return girlObject;
 }
 
-
-function overlapGary(x,y){
-	garyX=getX('gary');
-	garyY=getY('gary');
-	if(((x<garyX-40)||(x>garyY+80)) && ((y<garyY-60)||(y>garyY+120))){
+//regeneration of girls after they are grinded
+//shift to get rid of first element in array (fifo)
+function girlRegenerator(grindedArray){
+ 		girlIndex = grindedArray.shift();
+ 		randomizeType = Math.random();
+ 		type = Math.floor(((randomizeType*(4-1)) + 1));
+		girlListGlobal[girlIndex] = new Girl(girlListGlobal[girlIndex].id, 0, 0, false, type);
+ 		girlPositionGenerator(girlListGlobal[girlIndex]);
+ 		document.getElementById(girlListGlobal[girlIndex].id).style.display = "block";
+}
+//to avoid overlap generation of girls over gary
+function avoidOverlap(x,y){
+	if(((x<gary.x-40)||(x>gary.y+80)) && ((y<gary.y-60)||(y>gary.y+120))){
+		console.log("false");
 		return false;
 	}
 	else{
+		console.log("true");
 		return true;
 	}
 }
 
 function randX(min,max){	
-
 	var randX;
 	var randGen = Math.random();
 	randX = Math.floor(((randGen*(max-min)) + min)/10);
 	randX *= 10;
+	if(randX == 0){
+		randX += 10;
+	}
 	console.log("Random X: " + randX);
 	return parseInt(randX);
-
 }
 
-function randY(){
+function randY(){	
 	var randY;
-	// randX = Math.floor(((randGen*(max-min)) + min)/10);
 	while(randY==null||randY>540){
-// <<<<<<< HEAD
-// 		//randY = (Math.random()*1000)/10;
-// 		randY = 0; 
-// 		console.log("Random Y: " + parseInt(randY));
-// =======
 		randY = Math.floor((Math.random()*1000)/10);
 		randY *= 10;
 		console.log("Random Y: " + randY);
-//>>>>>>> 661e1f88520dfac3b3b0d8a778066038388fe99e
 	}
 	return parseInt(randY);
 }
 
 function garyCollision(objects, left, top){
-
 	garyLeft = left;
 	garyRight = left + 40;
 	garyTop = top;
 	garyBottom = top + 60;
-	objectLeft=getX(objects.id);
-	objectRight=getX(objects.id)+40 ;
-	objectTop=getY(objects.id );
-	objectBottom=getY(objects.id)+60;
-	console.log("current girl: " + objects.id);
+	objectLeft=objects.x;
+	objectTop=objects.y;
+	if(objects.x==null&&objects.y==null){
+	objectRight=null;					//FIXING NULL GLITCH WHEN REGENERATING GIRLS
+	objectBottom=null;
+	}
+	objectRight=objects.x+40 ;
+	objectBottom=objects.y+60;
+	console.log("current girl: " + " Object id = " + objects.id + " Object Left: " + objectLeft + " Object top: " + objectTop + " Gary Left: " + garyLeft + " Gary Top: " + garyTop);
 
 	if((garyTop==objectBottom&&garyTop>objectTop)&&((garyRight>=objectLeft&&garyRight<=objectRight)||(garyLeft<=objectRight&&garyLeft>=objectLeft))){
-		console.log('Gary hits bottom of object');
+		console.log('Gary hits bottom of object' + objects.id);
 		return 1;
 	}
 	if((garyBottom==objectTop&&garyBottom<=objectBottom)&&((garyRight>objectLeft&&garyRight<=objectRight)||(garyLeft<objectRight&&garyLeft>=objectLeft))){
-		console.log('Gary hits top of object');
+		console.log('Gary hits top of object ' + objects.id);
 		return 2;
 	}
 	if((objectLeft<garyLeft && objectRight==garyLeft)&&((garyBottom>objectTop&&garyBottom<=objectBottom)||(garyTop<objectBottom&&garyTop>=objectTop))){ 
 		//Left
-		console.log("Gary hits right of object");
+		objects.collide = true;
+		console.log("Gary hits right of object" + objects.id);
 		return 3;
 	}   
 	if((objectLeft==garyRight && objectRight>garyRight)&&((garyBottom>objectTop&&garyBottom<=objectBottom)||(garyTop<objectBottom&&garyTop>=objectTop))){ 
 		//Right
-		console.log('Gary hits left of object');
+		objects.collide = true;
+		console.log('Gary hits left of object' + objects.id);
 		return 4;
 	}
-		//console.log('hey: ' + objects.id + "Object Position: " + objectX + " " + objectY + " Gary X = " + garyX + " Gary Y = " + garyY);
-	return 0
+	objects.collide = false;
+	return 0;
 
-}
-
-function gary(){
-	window.addEventListener('keydown',moveGary);
 }
 
 function moveGary(event){
-
 	window.removeEventListener('keydown', moveGary);
 	var collide = false;
 	var column;
-	for(var x = 0; x <= 920; x+=184){
-		if(x <= getX('gary')){
-			column = x/184;
+	for(var x = 0; x <= 900; x+=180){
+		if(x <= gary.x){
+			column = x/180;
 		}
 	}
 	console.log(column);
-	collide = garyCollision(girlListGlobal[column], getX('gary'), getY('gary'));
+	collide1 = garyCollision(girlListGlobal[column], (gary.x - (180 * column)), gary.y);
+	if(column == 4){
+		collide2 = garyCollision(girlListGlobal[column], (gary.x - (180 * column)), gary.y);
+	}
+	else{
+		collide2 = garyCollision(girlListGlobal[column + 1], (gary.x - (180 * (column + 1))), gary.y);
+	}
 	//UP ARROW PRESSED
 	if(event.keyCode=="38"){
 		faceGary("GaryRunLeft.png", "gary");
-		if(collide != 1){
-			positionMap(0,-10,'gary');
+		if(collide1 != 1 && collide2 != 1){
+			positionMap(0,-10,gary);
 		}
 	}
 	//DOWN ARROW PRESSED
 	else if(event.keyCode=="40"){
 		faceGary("GaryRunRight.png", "gary");
-		if(collide != 2){
-			positionMap(0, 10,'gary');
+		if(collide1 != 2 && collide2 != 2){
+			positionMap(0, 10,gary);
 		}
 	}
 	//LEFT ARROW PRESSED
 	else if(event.keyCode=="37"){
 		faceGary("GaryRunLeft.png", "gary");
-		if(collide != 3){
-			positionMap(-10,0,'gary');
+		if(collide1 != 3 && collide2 != 3){
+			positionMap(-10,0,gary);
 		}
 	}
 	//RIGHT ARROW PRESSED
 	else if(event.keyCode=="39"){
 		faceGary("GaryRunRight.png", "gary");
-		if(collide != 4){
-			positionMap(10,0,'gary');
+		if(collide1 != 4 && collide2 != 4){
+			positionMap(10,0,gary);
 		}
+	}
 
+	else if(event.keyCode == "32"){
+		//addEventListener("keypress",function(){});
+		console.log("Space pressed");
+		if(collide2!=0||collide1!=0){
+			console.log("Grind");
+			grind();
+		}
 	}
 	window.addEventListener("keyup", stopGary);
-
 }
 
 function stopGary(event){
@@ -180,7 +302,6 @@ function stopGary(event){
 	//DOWN ARROW PRESSED
 	else if(event.keyCode=="40"){
 		faceGary("GaryStandRight.png", "gary");
-
 	}
 
 	//LEFT ARROW PRESSED
@@ -191,60 +312,110 @@ function stopGary(event){
 	else if(event.keyCode=="39"){
 		faceGary("GaryStandRight.png", "gary");
 	}
-	gary();
-
+	else if(event.keyCode == "32"){
+		//clearInterval(grinding);
+		girlRestart();
+		console.log("Space released");
+	}
+	garyStart();
 }
 
 function faceGary(direction, id){
 	document.getElementById(id).firstChild.src = "resources/" + direction;
-
 }
 
-function positionMap(X, Y, id){
-
-	var position = document.getElementById(id);
-
-	var sumX = getX(id);
-	if(!sumX){
-		sumX = 0;
+function grind(){
+	for(x=0;x<girlListGlobal.length;x++){
+		if(girlListGlobal[x].collide==true){
+			console.log("Grinding with girl " + girlListGlobal[x].id);
+			console.log("Stamina " + girlListGlobal[x].stamina + "Score " + girlListGlobal[x].scoreEarn);
+			window.grinding = setInterval(garyScores,1000,x);
+		}
 	}
-
-	sumX = sumX + X;
-	if(sumX < 0){
-		position.style.left = 0 + "px";
+}
+//gary scoresssss!!!!!! if girl is done, push index of girl to last element of grinded array, hide girl, change x and y to null para
+//--indi mabunggo si gary sa x and y sang girl even though hidden ang girl. Stop grinding interval. Regenerate girl in 10 seconds  
+function garyScores(girlIndex){
+	console.log("Running Again");
+	var sumScore = girlListGlobal[girlIndex].scoreEarn;
+	window.resetIndex = girlIndex;
+	window.pressured = false;
+	girlListGlobal[girlIndex].stamina -= 1;
+	if(girlListGlobal[girlIndex].stamina<0){
+		window.pressured = true;
+		girlRestart();
+		life--;
+		console.log("BACK OFF GARY!!!! YAKKKK!");
+		console.log("Gary's confidence: " + life);
+		if(life<=0){
+			gameLose();
+		}
+		return 0;
 	}
-	else if(sumX > 880){
-		position.style.left = 880 + "px";
+	if(girlListGlobal[girlIndex].stamina<girlListGlobal[girlIndex].pressure){
+		sumScore = girlListGlobal[girlIndex].scoreEarn * 2;
+		window.pressured = true;
+		console.log("YAKK GARY DIS YOU?!!");
+	
+	}
+	score += sumScore;
+	document.getElementById('score').innerHTML = score;
+	console.log("Score: " + score);
+}
+
+function girlRestart(){
+	clearInterval(grinding);
+	if(pressured==true){
+		time+=girlListGlobal[resetIndex].timeAdd;
+		document.getElementById(girlListGlobal[resetIndex].id).style.display = "none";
+		girlListGlobal[resetIndex].x = null;
+		girlListGlobal[resetIndex].y = null;
+		grindedArray.push(resetIndex);
+		setTimeout(function(){
+		girlRegenerator(grindedArray);
+		},10000);
 	}
 	else{
-		position.style.left = sumX + "px";
+		console.log("Stil ok");
 	}
+}
 
-
-	var sumY = getY(id);
-	if(!sumY){
-		sumY = 0;
-	}
-
+function positionMap(X, Y, object){
+	var sumX = object.x;
+	var sumY = object.y;
+	sumX = sumX + X;
 	sumY = sumY + Y;
+	
+	if(sumX < 0){
+		document.getElementById(object.id).style.left = 0 + "px";
+		sumX=0;
+	}
+	else if(sumX > 860){
+		document.getElementById(object.id).style.left = 860 + "px";
+		sumX=860;
+	}
+	else{
+		document.getElementById(object.id).style.left = sumX + "px";
+	}
+	object.x=sumX;
+
+	
 	if(sumY < 0){
-		position.style.top = 0 + "px";
+		document.getElementById(object.id).style.top = 0 + "px";
+		sumY=0;
 	}
 	else if(sumY > 540){
-		position.style.top = 540 + "px";
+		document.getElementById(object.id).style.top = 540 + "px";
+		sumY=540;
 	}
 	else{
-		position.style.top = sumY + "px";
+		document.getElementById(object.id).style.top = sumY + "px";
 	}
-	 console.log(id + " is at X = " + position.style.left + " Y = " + position.style.top);
+	object.y=sumY;
+	console.log(object.id + " is at X = " + object.x + " Y = " + object.y);
 }
 
-function getX(id){
-	var positionX = document.getElementById(id);
-	return parseInt(positionX.style.left);
-}
-
-function getY(id){
-	var positionY = document.getElementById(id);
-	return parseInt(positionY.style.top);
+function gameLose(){
+	var Name = prompt("Wassup Hokage enter your name: ");
+	window.close();
 }

@@ -1,6 +1,6 @@
 #game_map{
 
-	width: 920px; /* 23 columns 40x40 per block*/
+	width: 900px; /* 23 columns 40x40 per block*/
 	height: 600px; /* 15 rows 40x40 per block*/
 	border-style: solid;
 	border-width: 10px;
@@ -10,6 +10,22 @@
 	background-color: white; 
 	position: relative;
 
+}
+
+#scoreDiv{
+	background-color: white;
+}
+
+#scoreBoard{
+	background-color: white;
+	float:right;
+}
+
+.guard{
+	width: 40px;/*25 blocks l and r */   
+	height: 60px;/* 15 blocks up and down */
+	background-color: red; 
+	position: absolute;
 }
 
 #gary{
@@ -22,10 +38,10 @@
 
 }
 
-.woof{
+.girl{
 	width: 40px;/*25 blocks l and r */   
 	height: 60px;/* 15 blocks up and down */
-	background-color: red; 
+	/*background-color: red; */
 	position: absolute;
 }
 
@@ -35,12 +51,37 @@ body{
 
 }
 
-.barrier{
+.topBarrier{
+
 	width: 80px;
 	height: 80px;
-	background-color: green;
+	background-color: blue;
 	position: absolute;
 	left: 55px;
+	top: 60px;
+
+}
+
+
+.midBarrier{
+
+	width: 80px;
+	height: 80px;
+	background-color: blue;
+	position: absolute;
+	left: 55px;
+	top: 260px;
+
+}
+
+.botBarrier{
+
+	width: 80px;
+	height: 80px;
+	background-color: blue;
+	position: absolute;
+	left: 55px;
+	top: 460px;
 
 }
 
@@ -49,10 +90,12 @@ body{
 	width: 20%;
 	height: 600px;
 	float: left;
+	position: relative;
 }
 #column2, #column4{
 	background-color: orange;
 	width: 20%;
 	height: 600px;
 	float: left;
+	position: relative;
 }

@@ -5,32 +5,54 @@
 	<script src="GG.js" type="text/javascript"></script>
 </head>
 <body>
+	<div id="scoreDiv" >Score: <span id="score">0</span> Time Left: <span id="time"> 60 </span> secs Confidence: <span id="life"> </span></div>
 	<div id="game_map">
-		<div id="gary"><img src="resources/GaryStandLeft.png" /></div>
-		<div id="girl1" class="woof"><img src="" /></div>
-		<div id="barrier1" class="barrier"><img src="" /></div>
-		<div id="girl2" class="woof"><img src="" /></div>
-		<div id="barrier1" class="barrier"><img src="" /></div>
-		<div id="girl3" class="woof"><img src="" /></div>
-		<div id="barrier1" class="barrier"><img src="" /></div>
-		<div id="girl4" class="woof"><img src="" /></div>
-		<div id="barrier1" class="barrier"><img src="" /></div>
-		<div id="girl5" class="woof"><img src="" /></div>
-		<div id="barrier1" class="barrier"><img src="" /></div>
-		<div id="column1">
-		</div>
-		<div id="column2">
+		<div id="guardColumn1"> 
+			<div id="column1">
+				<!-- <div id="guard1" class="guard"> </div>
+				<div id="guard2" class="guard"> </div> -->
+				<div id="girl1" class="girl"><img src="" /></div>
+				<!-- <div class="topBarrier"><img src="" /></div> -->
+				<!-- <div class="midBarrier barrier"><img src="" /></div>     UNCOMMENT--> 		
+				<!-- <div class="botBarrier"><img src="" /></div> -->
+			</div>
+			<div id="column2">
+				<div id="girl2" class="girl"><img src="" /></div>
+				<!-- <div class="topBarrier barrier"><img src="" /></div>    UNCOMMENT -->
+				<!-- <div class="midBarrier"><img src="" /></div> --> 
+			<!-- 	<div class="botBarrier barrier"><img src="" /></div>      UNCOMMENT-->
+			</div>
 		</div>
 		<div id="column3">
+			<div id="girl3" class="girl"><img src="" /></div>
+			<!-- <div class="topBarrier"><img src="" /></div> -->
+		<!-- 	<div class="midBarrier"><img src="" /></div>         UNCOMMENT-->
+			<!-- <div class="botBarrier"><img src="" /></div> -->
 		</div>
-		<div id="column4">
+		<div id="guardColumn2">
+			<div id="column4">
+			<!-- <div id="guard3" class="guard"> </div>
+			<div id="guard4" class="guard"> </div> -->
+				<div id="girl4" class="girl"><img src="" /></div>
+				<!-- <div class="topBarrier barrier"><img src="" /></div>     UNCOMMENT-->
+				<!-- <div class="midBarrier"><img src="" /></div> -->
+				<!-- <div class="botBarrier barrier"><img src="" /></div>      UNCOMMENT-->
+			</div>
+			<div id="column5">
+				<div id="girl5" class="girl"><img src="" /></div>
+				<!-- <div class="topBarrier"><img src="" /></div> -->
+				<!-- <div class="midBarrier barrier"><img src="" /></div>    UNCOMMENT-->
+				<!-- <div class="botBarrier"><img src="" /></div> -->
+			</div>
 		</div>
-		<div id="column5">
-		</div>
+		<div id="gary"><img src="resources/GaryStandLeft.png" /></div>
 
 		
 	</div>
-	<audio controls hidden >
+	<!-- <div id="scoreBoard">
+		<h1> Hokage Leaderboard </h1>
+	</div> -->
+	<audio controls hidden autoplay="true" >
 		<source src="resources/broccoli.mp3" type="audio/mpeg"/>
 	Your browser does not support the audio element.
 	</audio>
