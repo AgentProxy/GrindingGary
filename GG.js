@@ -6,7 +6,7 @@ window.onload = function(){
 	//guardStart();
 	window.score = 0;
 	window.life = 3;
-	window.time = 60;
+	window.time = 30;
 	window.grindedArray=[];
 	document.getElementById("life").innerHTML=life;
 	setInterval(gameStart,1000);
@@ -368,8 +368,8 @@ function girlRestart(){
 	if(pressured==true){
 		time+=girlListGlobal[resetIndex].timeAdd;
 		document.getElementById(girlListGlobal[resetIndex].id).style.display = "none";
-		girlListGlobal[resetIndex].x = null;
-		girlListGlobal[resetIndex].y = null;
+		girlListGlobal[resetIndex].x = undefined;
+		girlListGlobal[resetIndex].y = undefined;
 		grindedArray.push(resetIndex);
 		setTimeout(function(){
 		girlRegenerator(grindedArray);
